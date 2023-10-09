@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Web;
 
 var clientId = "175089f1-f230-4e66-8151-100ffb2f24a5";
@@ -57,11 +58,15 @@ async Task<Dictionary<string,string>> RunBrowser(string url, string redirect)
 
     var context = await listener.GetContextAsync();
 
-    var q = context.Request.QueryString;
+    var response = Encoding.UTF8.GetBytes("<html><body>Code received!</body></html>");
 
-    var response = q.AllKeys.ToDictionary(k => k, k => q[k]);
+    context.Response.ContentLength64 = response.Length;
+    await context.Response.OutputStream.WriteAsync(response);
+
+    var q = context.Request.QueryString;
+    var request = q.AllKeys.ToDictionary(k => k, k => q[k]);
 
     listener.Stop();
     
-    return response;
+    return request;
 }
