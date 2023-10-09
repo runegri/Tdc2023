@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth2Demo", "OAuth2Demo\OAuth2Demo.csproj", "{5CDE88EA-44A6-4868-9FAD-913000250BAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcDemo", "OidcDemo\OidcDemo.csproj", "{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CDE88EA-44A6-4868-9FAD-913000250BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CDE88EA-44A6-4868-9FAD-913000250BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CDE88EA-44A6-4868-9FAD-913000250BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CDE88EA-44A6-4868-9FAD-913000250BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51C33968-48E4-41A1-83D5-FAAD8201DEE0}
+	EndGlobalSection
+EndGlobal
