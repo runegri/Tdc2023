@@ -19,9 +19,9 @@ Console.WriteLine($"Running system browser against url {authorizeUrl}");
 var authResponse = await RunBrowser(authorizeUrl, "http://localhost:12345/");
 var code = authResponse["code"];
 
+Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Authorization code received: {code}");
 Console.WriteLine();
-
 Console.ReadLine();
 
 var tokenResponse = await GetTokenResponse(new() {
@@ -32,14 +32,17 @@ var tokenResponse = await GetTokenResponse(new() {
     { "code", code},
 });
 
+Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("Got the following response:");
 PrintJson(tokenResponse);
 
 Console.ReadLine();
+Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("Decoding the Identity Token:");
 PrintJwt(GetToken(tokenResponse, "id_token"));
 
 Console.ReadLine();
+Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("Decoding the Access Token:");
 PrintJwt(GetToken(tokenResponse, "access_token"));
 
