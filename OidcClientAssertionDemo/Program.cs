@@ -1,5 +1,11 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -7,9 +13,14 @@ var clientId = "af2499f1-e7fa-401f-b2f6-89fa14c98797";
 var scope = HttpUtility.UrlEncode("openid profile helseid://scopes/identity/pid udelt:test-api/api");
 var redirectUri = HttpUtility.UrlEncode("http://localhost:12345/callback");
 
+var codeVerifier = Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
+var codeChallenge = Base64UrlEncoder.Encode(SHA256.HashData(Encoding.ASCII.GetBytes(codeVerifier)));
+
+var state = Base64UrlEncoder.Encode("Min hemmelige state!");
+
 var authorizationServer = "https://localhost:44366";
 
-var authorizeUrl = $"{authorizationServer}/connect/authorize?client_id={clientId}&scope={scope}&redirect_uri={redirectUri}&response_type=code";
+var authorizeUrl = $"{authorizationServer}/connect/authorize?client_id={clientId}&scope={scope}&redirect_uri={redirectUri}&response_type=code&code_challenge={codeChallenge}&code_challenge_method=S256&state={state}";
 
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Running system browser against url {authorizeUrl}");
@@ -28,9 +39,12 @@ Console.ReadLine();
 var tokenResponse = await GetTokenResponse(new() {
     { "client_id", clientId },
     { "grant_type", "authorization_code" },
-    { "client_secret", "-uUWR6cugits6WGauRYi1NhTEcZQ-Ede43WtW-Nz9vgPW9EytVrRZhFqG7Y3rpEc" },
+    //{ "client_secret", "-uUWR6cugits6WGauRYi1NhTEcZQ-Ede43WtW-Nz9vgPW9EytVrRZhFqG7Y3rpEc" },
     { "redirect_uri", "http://localhost:12345/callback"},
     { "code", code},
+    { "code_verifier", codeVerifier },
+    { "client_assertion", GetClientAssertion(clientId, authorizationServer)},
+    { "client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" },
 });
 
 Console.ForegroundColor = ConsoleColor.White;
@@ -47,7 +61,29 @@ Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("Decoding the Access Token:");
 PrintJwt(GetToken(tokenResponse, "access_token"));
 
+string GetClientAssertion(string clientId, string authorizationServer)
+{
+    var jwk = new JsonWebKey(File.ReadAllText("jwk.json"));
+    var signingCredentials = new SigningCredentials(jwk, SecurityAlgorithms.RsaSha512);
 
+    var claims = new List<Claim>
+            {
+                new Claim("sub", clientId),
+                new Claim("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
+                new Claim("jti", Guid.NewGuid().ToString("N")),
+            };
+
+    var securityToken = new JwtSecurityToken(
+        issuer: clientId,
+        audience: authorizationServer,
+        claims: claims,
+        notBefore: DateTime.Now,
+        expires: DateTime.Now.AddSeconds(10),
+        signingCredentials);
+
+    var clientAssertion = new JwtSecurityTokenHandler().WriteToken(securityToken);
+    return clientAssertion;
+}
 
 async Task<Dictionary<string, string>> RunBrowser(string url, string redirect)
 {
@@ -142,5 +178,5 @@ void PrintJwt(string jwt)
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Signature:");
     Console.WriteLine(jwtParts[2]);
-
 }
+

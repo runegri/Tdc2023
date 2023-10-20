@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAuth2Demo", "OAuth2Demo\OAuth2Demo.csproj", "{5CDE88EA-44A6-4868-9FAD-913000250BAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth2Demo", "OAuth2Demo\1-OAuth2Demo.csproj", "{5CDE88EA-44A6-4868-9FAD-913000250BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcDemo", "OidcDemo\OidcDemo.csproj", "{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidcDemo", "OidcDemo\2-OidcDemo.csproj", "{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcPkceDemo", "OidcPkceDemo\3-OidcPkceDemo.csproj", "{343852F6-67D0-4F42-B06D-456128D879FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcClientAssertionDemo", "OidcClientAssertionDemo\4-OidcClientAssertionDemo.csproj", "{6E5A38EC-B235-4709-B28A-80B89C609E72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5CE7332-A1B6-4FC9-AE4A-1C2A5A5154EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343852F6-67D0-4F42-B06D-456128D879FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343852F6-67D0-4F42-B06D-456128D879FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343852F6-67D0-4F42-B06D-456128D879FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343852F6-67D0-4F42-B06D-456128D879FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E5A38EC-B235-4709-B28A-80B89C609E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E5A38EC-B235-4709-B28A-80B89C609E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E5A38EC-B235-4709-B28A-80B89C609E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E5A38EC-B235-4709-B28A-80B89C609E72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

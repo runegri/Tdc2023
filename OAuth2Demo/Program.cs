@@ -1,10 +1,10 @@
 ﻿
 var tokenResponse = await GetTokenResponse(new()
 {
-    {"client_id", "175089f1-f230-4e66-8151-100ffb2f24a5" },
+    {"client_id", "af2499f1-e7fa-401f-b2f6-89fa14c98797" },
     {"scope", "udelt:test-api/api" },
     {"grant_type", "client_credentials" },
-    {"client_secret", "CGti1jJLqU-HRH7sbGjKWbQFqNhnCkJPaebR6bLgdvwgt5Y_L0wnUqIlQ8otJapa" }
+    {"client_secret", "-uUWR6cugits6WGauRYi1NhTEcZQ-Ede43WtW-Nz9vgPW9EytVrRZhFqG7Y3rpEc" }
 });
 
 
@@ -36,10 +36,11 @@ async Task<string> GetTokenResponse(Dictionary<string, string> parameters)
 
     var client = new HttpClient();
 
-    var response = await client.PostAsync("https://helseid-sts.utvikling.nhn.no/connect/token", content);
+    var response = await client.PostAsync("https://localhost:44366/connect/token", content);
+    var tokenResponse = await response.Content.ReadAsStringAsync(); 
     if (response.IsSuccessStatusCode)
     {
-        return await response.Content.ReadAsStringAsync();
+        return tokenResponse;
     }
 
     return $"Returned status code {response.StatusCode}";

@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -7,9 +9,14 @@ var clientId = "af2499f1-e7fa-401f-b2f6-89fa14c98797";
 var scope = HttpUtility.UrlEncode("openid profile helseid://scopes/identity/pid udelt:test-api/api");
 var redirectUri = HttpUtility.UrlEncode("http://localhost:12345/callback");
 
+var codeVerifier = Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
+var codeChallenge = Base64UrlEncoder.Encode(SHA256.HashData(Encoding.ASCII.GetBytes(codeVerifier)));
+
+var state = Base64UrlEncoder.Encode("Min hemmelige state!");
+
 var authorizationServer = "https://localhost:44366";
 
-var authorizeUrl = $"{authorizationServer}/connect/authorize?client_id={clientId}&scope={scope}&redirect_uri={redirectUri}&response_type=code";
+var authorizeUrl = $"{authorizationServer}/connect/authorize?client_id={clientId}&scope={scope}&redirect_uri={redirectUri}&response_type=code&code_challenge={codeChallenge}&code_challenge_method=S256&state={state}";
 
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Running system browser against url {authorizeUrl}");
@@ -31,6 +38,7 @@ var tokenResponse = await GetTokenResponse(new() {
     { "client_secret", "-uUWR6cugits6WGauRYi1NhTEcZQ-Ede43WtW-Nz9vgPW9EytVrRZhFqG7Y3rpEc" },
     { "redirect_uri", "http://localhost:12345/callback"},
     { "code", code},
+    { "code_verifier", codeVerifier }
 });
 
 Console.ForegroundColor = ConsoleColor.White;
