@@ -17,10 +17,13 @@ Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Running system browser against url {authorizeUrl}");
 
 var authResponse = await RunBrowser(authorizeUrl, "http://localhost:12345/");
+
+Console.WriteLine("Got response:");
+
+PrintKeyValuePairs(authResponse);
+
 var code = authResponse["code"];
 
-Console.ForegroundColor = ConsoleColor.White;
-Console.WriteLine($"Authorization code received: {code}");
 Console.WriteLine();
 Console.ReadLine();
 
@@ -80,10 +83,7 @@ async Task<string> GetTokenResponse(Dictionary<string, string> parameters)
     Console.ResetColor();
     Console.WriteLine("Calling the token endpoint with parameters:");
 
-    foreach (var parameter in parameters)
-    {
-        Console.WriteLine($"{parameter.Key} => {parameter.Value}");
-    }
+    PrintKeyValuePairs(parameters);
 
     var client = new HttpClient();
 
@@ -106,6 +106,14 @@ void PrintJson(string json)
     catch
     {
         Console.WriteLine(json);
+    }
+}
+
+void PrintKeyValuePairs(IEnumerable<KeyValuePair<string, string>> kvps)
+{
+    foreach (var kvp in kvps)
+    {
+        Console.WriteLine($"{kvp.Key} => {kvp.Value}");
     }
 }
 
