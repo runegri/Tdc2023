@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 
 var clientId = "af2499f1-e7fa-401f-b2f6-89fa14c98797";
-var scope = HttpUtility.UrlEncode("openid profile helseid://scopes/identity/pid udelt:test-api/api");
+var scope = HttpUtility.UrlEncode("openid profile udelt:test-api/api");
 var redirectUri = HttpUtility.UrlEncode("http://localhost:12345/callback");
 
 var codeVerifier = Guid.NewGuid().ToString() + Guid.NewGuid().ToString();
@@ -20,6 +20,8 @@ var authorizeUrl = $"{authorizationServer}/connect/authorize?client_id={clientId
 
 Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine($"Running system browser against url {authorizeUrl}");
+PrintQueryString(authorizeUrl);
+Console.ReadLine();
 
 var authResponse = await RunBrowser(authorizeUrl, "http://localhost:12345/");
 
@@ -86,7 +88,6 @@ async Task<string> GetTokenResponse(Dictionary<string, string> parameters)
 {
     var content = new FormUrlEncodedContent(parameters);
 
-    Console.ResetColor();
     Console.WriteLine("Calling the token endpoint with parameters:");
 
     PrintKeyValuePairs(parameters);
@@ -139,16 +140,26 @@ void PrintJwt(string jwt)
     var body = Microsoft.IdentityModel.Tokens.Base64UrlEncoder.Decode(jwtParts[1]);
 
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine("Header:");
     PrintJson(header);
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("Body:");
     PrintJson(body);
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Signature:");
     Console.WriteLine(jwtParts[2]);
 
+}
+
+
+void PrintQueryString(string url)
+{
+    var query = HttpUtility.ParseQueryString(new Uri(authorizeUrl).Query);
+
+    Console.WriteLine();
+    Console.WriteLine("Query:");
+    foreach (var key in query.Keys)
+    {
+        Console.WriteLine($"{key} => {query.Get(key.ToString())}");
+    }
 }

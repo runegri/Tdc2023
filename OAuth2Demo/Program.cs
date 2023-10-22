@@ -73,15 +73,12 @@ void PrintJwt(string jwt)
     var body = Microsoft.IdentityModel.Tokens.Base64UrlEncoder.Decode(jwtParts[1]);
 
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine("Header:");
     PrintJson(header);
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("Body:");
     PrintJson(body);
     Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Signature:");
     Console.WriteLine(jwtParts[2]);
 
